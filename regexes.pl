@@ -153,7 +153,7 @@ $y =~ s/(\w+)/\u$1/g; # Capitalize all words
 say "Hello, World!" =~ s/World/Perl/r;
 say join ' ', map { s/[abc]/x/r } qw/a b c d e f/;
 
-# Evaluation modfier /e wraps an eval{...} around the replacement string
+# Evaluation modifier /e wraps an eval{...} around the replacement string
 
 say $y =~ s/(\w+)/reverse $1/egr;
 
