@@ -41,27 +41,35 @@ use feature qw(say);
 #   q       Quit
 #   R       Restart
 
-# Return list of prime numbers <= $n using sieve of Eratosthenes
-sub primes {
-    my $n = shift;
-
-    return () if $n < 2;
-
-    my @l = 0 .. $n;
-    $l[1] = 0;
-
-    for (my $p = 2; $p <= sqrt($n); $p += 1) {
-        next unless $l[$p];
-        for (my $q = 2 * $p; $q <= $n; $q += $p) {
-            $l[$q] = 0;
-        }
-    }
-
-    return grep { $_ != 0 } @l;
+# Character at index $i of string $s
+sub char {
+    my ($s, $i) = @_;
+    return substr($s, $i, 1);
 }
 
-my @primes = primes(30);
-say join " ", @primes;
+# Substr of $s with character at index $i removed
+sub rmchar {
+    my ($s, $i) = @_;
+    return substr($s, 0, $i) . substr($s, $i + 1, length($s) - $i - 1);
+}
+
+# List of permutations of string $s
+sub perms {
+    my ($s) = @_;
+    return ($s) if length($s) == 1;
+    return () if length($s) == 0;
+    my @perms = (); 
+    for (my $i = 0; $i < length($s); $i++) {
+        my $c = char($s, $i);
+        my $t = rmchar($s, $i);
+        for my $perm (perms($t)) {
+            push @perms, $c . $perm;
+        }
+    }
+    return @perms;
+}
+
+say join "\n", perms('abc');
 
 # For simple print-statement debugging, Data::Dumper can be used to pretty-print data structures
 #
